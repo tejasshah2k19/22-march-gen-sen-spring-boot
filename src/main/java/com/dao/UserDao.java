@@ -24,4 +24,28 @@ public class UserDao {
 		return stmt.query("select * from users", new BeanPropertyRowMapper<UserBean>(UserBean.class));
 	}
 
+	public void deleteUser(int userId) {
+
+		stmt.update("delete from users where userid = ? ", userId);
+	}
+
+	public UserBean getUserById(int userId) {
+		try {
+			return stmt.queryForObject("select * from users where userid = ? ",
+					new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] { userId });
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public UserBean getUserByEmail(String email) {
+
+		try {
+			return stmt.queryForObject("select * from users where email = ? ",
+					new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] { email });
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 }
