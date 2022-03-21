@@ -48,4 +48,8 @@ public class UserDao {
 		}
 	}
 
+	public void updateUser(UserBean user) {
+		stmt.update("update users set firstname = ? where userid = ? ", user.getFirstName(), user.getUserId());
+	}
+
 }

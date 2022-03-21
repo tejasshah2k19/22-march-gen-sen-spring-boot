@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.ResponseBean;
@@ -52,14 +53,14 @@ public class UserController {
 		if (user == null) {
 			resp.setStatus(-1);
 			resp.setMessage("Invalid userId");
- 		} else {
+		} else {
 			resp.setStatus(200);
 			resp.setMessage("user ret...");
 			resp.setData(user);
 
 		}
 
-		return resp; 
+		return resp;
 	}
 
 	@DeleteMapping("/users/{userId}")
@@ -69,12 +70,26 @@ public class UserController {
 		return userDao.getAllUsers();
 
 	}
-	
-	
+
 	@GetMapping("/getuserbyemail/{email}")
-	public ResponseEntity<UserBean> getUserByEmail(@PathVariable("email") String email){
+	public ResponseEntity<UserBean> getUserByEmail(@PathVariable("email") String email) {
 		UserBean user = userDao.getUserByEmail(email);
-		ResponseEntity<UserBean> resp = new ResponseEntity<UserBean>(user,HttpStatus.ACCEPTED);
+		ResponseEntity<UserBean> resp = new ResponseEntity<UserBean>(user, HttpStatus.ACCEPTED);
 		return resp;
 	}
+
+	@PutMapping("/users")
+	public ResponseBean<UserBean> updateUser(UserBean user) {
+
+		//userid 
+		//update - data
+		userDao.updateUser(user);
+		ResponseBean<UserBean> res = new ResponseBean<>();
+		res.setStatus(200);
+		res.setData(user);
+		res.setMessage("user updated");
+		return res;
+
+	}
+
 }
